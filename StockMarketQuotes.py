@@ -11,7 +11,7 @@ It could also calculate gain when you invest in the stock price in the beginning
 it deviates from the mean. 
 write_mean() and build_R() are helper functions for Matlab(.m) files in this directory. 
 They help to create Markowitz Matrix for stock portfolio.
-@ Bugra Akyildiz
+@ Bugra
 """
 class StockMarketQuotes:
 
