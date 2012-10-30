@@ -24,7 +24,7 @@ class StockMarketQuotes:
     def get_date(self):	
         quote_date = []
         for ii in range(1, len(self.data)):
-            quote_date.append(float(self.data[ii][0]))
+            quote_date.append(str(self.data[ii][0]))
         return quote_date
 		
     def get_opening_price(self):
@@ -79,7 +79,7 @@ class StockMarketQuotes:
             diff.append(float(self.get_highest_price()[ii] - self.calculate_mean()))
         return diff
 		
-google = StockMarketQuotes('GOOG','20100101','20120831')
+
 microsoft = StockMarketQuotes('MSFT','20100101','20120224')
 apple = StockMarketQuotes('AAPL','20100101','20120224')
 #netflix = StockMarketQuotes('NFLX','20100101','20120224')
@@ -92,40 +92,5 @@ mcDonald =  StockMarketQuotes('MCD','20100101','20120224')
 #caterPillar = StockMarketQuotes('CAT','20100101','20120224')
 cocaCola = StockMarketQuotes('KO','20100101','20120224')
 
-def visualize_stock_price(quote, days=100):
-    delta = np.diff(quote.get_adjusted_close()) / quote.get_adjusted_close()[:-1]
-    first_volume = quote.get_volume()[0]
-    vol =  [(15 * x/first_volume) ** 2 for x in quote.get_volume()]
-    volume = vol[:-2]
-    temp = [0.003 * ( float(x) / y) for x, y in zip(quote.get_closing_price(), quote.get_opening_price())]
-    close = temp[:-2]
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.scatter(delta[:-1], delta[1:], c=close, s=volume, alpha=0.75)
-    ax.set_xlabel(r'$\Delta_i$', fontsize=20)
-    ax.set_ylabel(r'$\Delta_{i+1}$', fontsize=20)
-    ax.set_title("Google's Volume and percent change")
-    ax.grid(True)
-    plt.show()
-    
-visualize_stock_price(google)
-
-  
-def write_mean():
-	means = np.matrix([google.calculate_mean(), microsoft.calculate_mean(), apple.calculate_mean(),\
-					    yahoo.calculate_mean(), mcDonald.calculate_mean(), cocaCola.calculate_mean(),\
-					    pfizer.calculate_mean(), morganStanley.calculate_mean()]) 
-	sio.savemat('means.mat',{'M':means})
-	return means
 
 
-def build_R():
-	R = np.zeros([8,8,530],float)
-	for ii in range(0, 530):
-		vector = np.matrix([google.calculate_difference_from_mean()[ii], microsoft.calculate_difference_from_mean()[ii], apple.calculate_difference_from_mean()[ii], yahoo.calculate_difference_from_mean()[ii],mcDonald.calculate_difference_from_mean()[ii], cocaCola.calculate_difference_from_mean()[ii], pfizer.calculate_difference_from_mean()[ii], morganStanley.calculate_difference_from_mean()[ii]])
-		vectorTranspose = vector.transpose()
-		smallR = (vectorTranspose*vector)
-		R[:,:,ii] = smallR
-	sio.savemat('R1.mat',{'R':R})
-	return R
-print build_R()
