@@ -20,9 +20,10 @@ def visualize_stock_price(quote, days=100):
     ax.scatter(delta[:-1], delta[1:], c=close, s=volume, alpha=0.75)
     ax.set_xlabel(r'$\Delta_i$', fontsize=20)
     ax.set_ylabel(r'$\Delta_{i+1}$', fontsize=20)
-    ax.set_title("Google's Volume and percent change")
+    ax.set_title("Quote's Volume and percent change")
     ax.grid(True)
     plt.show()
-    
-google = StockMarketQuotes('GOOG','20100101','20120831')    
-visualize_stock_price(google)
+
+if __name__ == '__main__':
+    google = StockMarketQuotes('GOOG','20100101','20120831')    
+    visualize_stock_price(google)
